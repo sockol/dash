@@ -1,0 +1,17 @@
+
+<td class="text-center" ng-bind="index"></td>
+<td>
+    <label class="label label-danger label-form" ng-hide="!data.authorExists"></label>
+    <strong ng-bind="data.author" ng-hide="!data.authorExists"></strong>
+</td> 
+<td>
+    <strong ng-bind="data.userName | cut:true:30:' ...'"></strong>
+</td>
+<td>
+    <strong ng-bind="data.managerName"></strong>
+</td>
+<td ng-bind="data.sum | currency:'$':2" ng-class="data.getClassNumber"></td> 
+<td ng-bind="data.date.start"></td>    
+<td> 
+    <span class="label label-danger label-form pull-right" ng-hide="data.hasTransactions">No Trades</span> 
+</td>   

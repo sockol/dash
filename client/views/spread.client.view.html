@@ -1,0 +1,104 @@
+  
+<div class="row">
+
+    <!-- FILTERS START -->
+    <div class="col-md-12">
+        <spread-filters></spread-filters> 
+    </div> 
+    <!-- FILTERS END -->
+         
+
+    <!-- NOTE CONTENT START -->
+     
+    <div class="col-md-12" ng-class="rCtrl.collapseClassPanel()">
+        <div class="panel panel-default">
+            <div class="panel-heading">                                
+                <h3 class="panel-title">Spread Report</h3>
+                <ul class="panel-controls">
+                    <li>
+                        <a class="panel-collapse" ng-click="rCtrl.collapseToggle()">
+                            <span class="fa" ng-class="rCtrl.collapseClassIcon()"></span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="panel-refresh" ng-click="rCtrl.filtersApply()">
+                            <span class="fa fa-refresh"></span>
+                        </a>
+                    </li>
+                </ul>                                
+            </div>
+            <div class="panel-body">
+
+                <form>
+                    <div class="dataTables_length">
+                        <label>
+                            Show 
+                            <select 
+                                class="form-control" 
+                                ng-model="rCtrl.filters.limit" 
+                                ng-change="rCtrl.filtersApply()"
+                                ng-options="limit for limit in [20, 50]">
+                                <option value="">10</option> 
+                            </select> 
+                            pages
+                        </label>
+                    </div> 
+                </form>
+
+                <table class="table datatable table-hover">
+                    <thead>
+                        <tr>
+                            <th width="50">
+                                ID  
+                            </th>
+                            <th width="200">
+                                Spread Author
+                            </th> 
+                            <th width="200">
+                                Client
+                            </th>
+                            <th width="200">
+                                Manager
+                                <span class="sort-icon pull-right" ng-click="rCtrl.sortingApply('manager')" ng-class="rCtrl.sortingClass('manager')"></span>
+                            </th>
+                            <th width="200">
+                                Profit/Loss 
+                            </th>  
+                            <th width="200">
+                                Date 
+                            </th>   
+                            <th>Info</th> 
+                        </tr>
+                    </thead> 
+                    
+                    <tbody ng-hide="rCtrl.ui.mainLoader"> 
+                        <tr>
+                            <td  colspan="8"> 
+                                <spinner></spinner> 
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tbody ng-hide="!rCtrl.ui.mainError"> 
+                        <tr>
+                            <td  colspan="8">  
+                                <error data="Spread Reports"></error> 
+                            </td>
+                        </tr>
+                    </tbody> 
+                    <tbody ng-hide="!rCtrl.ui.mainLoader || rCtrl.ui.mainError"> 
+                        <tr ng-click="navigate($event, 'spread.single', {spreadId:data.reportId})" spread data="data" index="{{rCtrl.getIndexStart($index)}}" ng-repeat="data in rCtrl.data.reports"></tr> 
+                    </tbody> 
+                </table>  
+                <server-pagination-no-count 
+                    ng-hide="!rCtrl.ui.mainLoader" 
+                    filters-apply="rCtrl.filtersApply"
+                    filters="rCtrl.filters"
+                    data="rCtrl.data.reports"
+                    ui="rCtrl.ui"></server-pagination-no-count> 
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- NOTE CONTENT END --> 

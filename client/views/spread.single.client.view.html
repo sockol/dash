@@ -1,0 +1,242 @@
+
+<spinner ng-hide="rsCtrl.ui.mainLoader"></spinner>
+<error ng-hide="!rsCtrl.ui.mainError" data="Note Page"></error> 
+ 
+<!-- START CONTENT FRAME -->
+<div class="content-frame spread-page single" ng-hide="!rsCtrl.ui.mainLoader || rsCtrl.ui.mainError">
+ 
+    <div class="row">  
+        <!-- PAGINATION START -->
+        <div class="col-md-12" ng-hide="rsCtrl.getPageCount() == 1">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <div class="row">
+
+                        <div class="col-md-6">
+                            <h3 class="panel-title">
+                                <strong>Main Pagination</strong>
+                            </h3> 
+                        </div> 
+
+                    </div>
+                </div> 
+                <div class="panel-body">
+          
+                    <div class="row"> 
+                        <div class="col-md-12">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <button 
+                                        class="btn btn-default btn-block"
+                                        ng-hide="rsCtrl.getCurrentPage() <= 1" 
+                                        ng-click="rsCtrl.setCurrentPage(rsCtrl.getCurrentPage() - 1)">
+                                        <i class="fa fa-arrow-left"></i>
+                                        Previous Trade Group for this Customer
+                                    </button>
+                                </div>
+                                <div class="col-md-6">  
+                                    <button 
+                                        class="btn btn-default btn-block"  
+                                        ng-hide="rsCtrl.getCurrentPage() >= rsCtrl.getPageCount()" 
+                                        ng-click="rsCtrl.setCurrentPage(rsCtrl.getCurrentPage() + 1)">
+                                        Next Trade Group for this Customer
+                                        <i class="fa fa-arrow-right"></i>
+                                    </button>
+                                </div> 
+                            </div> 
+                        </div>   
+                    </div>
+                </div>  
+            </div>
+        </div> 
+        <!-- PAGINATION END -->
+
+        <!-- FILTERS START -->
+        <div class="col-md-12">  
+
+            <form class="form-horizontal">
+                <div class="panel panel-default" ng-class="collapseClassPanel()">
+                    <div class="panel-heading">
+                        <div class="row">
+
+                            <div class="col-md-6">
+                                <h3 class="panel-title">
+                                    <strong>Filter by</strong>
+                                </h3> 
+                            </div>
+
+                            <div class="col-md-6"> 
+                                <ul class="panel-controls">
+                                    <li>
+                                        <a class="panel-collapse" ng-click="collapseToggle()">
+                                            <span class="fa" ng-class="collapseClassIcon()"></span>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div> 
+                    <div class="panel-body">
+             
+                        <div class="row"> 
+                            <div class="col-md-12">
+                                <div class="row"> 
+                                    <rzslider   
+                                        rz-slider-model="slider.minValue"
+                                        rz-slider-high="slider.maxValue"
+                                        rz-slider-options="slider.options"></rzslider>
+                                </div>
+                                <span class="help-block">
+                                    Pick Trade Range
+                                </span>
+                            </div>
+                        </div> 
+
+                    </div> 
+                </div>
+            </form> 
+            
+
+            <div class="panel panel-default">
+                <div class="panel-heading ui-draggable-handle">
+                    <h3 class="panel-title">Transactions Graph</h3> 
+                </div>
+                <div class="panel-body">   
+                    <chart ng-hide="!rsCtrl.ui.subLoader" class="chart" id="chart" data="rsCtrl.data.graph"></chart>
+                    <spinner ng-hide="rsCtrl.ui.subLoader"></spinner>   
+                </div>    
+            </div>  
+        </div>
+        <!-- FILTERS END -->
+    </div>
+
+    <!-- START CONTENT FRAME LEFT -->
+    <div class="content-frame-left">  
+    
+        <!-- START PRIMARY PANEL -->
+        <div class="panel panel-primary">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Customer 
+                </h3> 
+                <a  
+                    href="/spread/?dateStart=2000-01-01&dateEnd=2016-10-27&sortKey=date&sortDesc&limit=10&page=1&userId={{rsCtrl.data.report.userId}}"
+                    class="badge badge-danger pull-right" 
+                    data-toggle="tooltip" 
+                    data-placement="right">Reports by customer</a>   
+            </div> 
+            <div class="panel-body list-group border-bottom"> 
+ 
+                <span class="list-group-item">
+                    <span class="fa fa-male"></span>  
+                    <span ng-bind="rsCtrl.data.report.userName"></span>
+                </span>
+                <span class="list-group-item">
+                    <span class="fa fa-inbox"></span>  
+                    <span ng-bind="rsCtrl.data.report.userEmail"></span>
+                </span>
+                <span class="list-group-item">
+                    <span class="fa fa-dollar"></span>  
+                    <span ng-bind="rsCtrl.data.report.sum | currency:'$':2"></span>
+                </span> 
+
+            </div>                         
+        </div>
+        <!-- END PRIMARY PANEL -->
+          
+        <!-- START PRIMARY PANEL -->
+        <div class="panel panel-primary" ng-hide="!rsCtrl.data.report.managerName && !rsCtrl.data.report.managerName">
+            <div class="panel-heading">
+                <h3 class="panel-title">
+                    Manager
+                </h3>
+                <a 
+                    href="/spread/?dateStart=2000-01-01&dateEnd=2016-10-27&sortKey=date&sortDesc&limit=10&page=1&managerId={{rsCtrl.data.report.managerId}}"   
+                    class="badge badge-danger pull-right" 
+                    data-toggle="tooltip" 
+                    data-placement="right">Reports by Manager</a>
+            </div> 
+            <div class="panel-body list-group border-bottom"> 
+ 
+                <span class="list-group-item" ng-hide="!rsCtrl.data.report.managerName"> 
+                    <span class="fa fa-male"></span> 
+                    <span ng-bind="rsCtrl.data.report.managerName"></span> 
+                </span>
+                <span class="list-group-item" ng-hide="!rsCtrl.data.report.managerEmail">
+                    <span class="fa fa-inbox"></span>  
+                    <span ng-bind="rsCtrl.data.report.managerEmail"></span>  
+                </span>
+
+            </div>                         
+        </div>
+        <!-- END PRIMARY PANEL -->
+
+    </div> 
+    <!-- END CONTENT FRAME LEFT -->
+    
+    <!-- START CONTENT FRAME BODY -->
+    <div class="content-frame-body">  
+                        
+        <div class="tasks" id="tasks">
+    
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                    <h3 class="panel-title">All Transactions from Customer</h3>
+                </div> 
+
+                <div class="panel-body">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Asset Name</th>
+                                <th>Profit/Loss</th> 
+                                <th>Balance</th> 
+                                <th>Spread</th>
+                            </tr>
+                        </thead>
+                        <tbody ng-hide="!rsCtrl.ui.subError"> 
+                            <tr>
+                                <td colspan="5">  
+                                    <error data="Trade Rows"></error> 
+                                </td>
+                            </tr>
+                        </tbody>
+                        <tbody ng-hide="rsCtrl.ui.subLoader"> 
+                            <tr>
+                                <td colspan="5">  
+                                    <spinner></spinner> 
+                                </td>
+                            </tr>
+                        </tbody>  
+                        <tbody ng-hide="!rsCtrl.ui.subLoader || rsCtrl.ui.subError">
+                            <tr ng-repeat="trade in rsCtrl.data.tradesFiltered">
+                                <td ng-bind="trade.date"></td> 
+                                <td ng-bind="trade.assetName"></td> 
+                                <td ng-bind="trade.win | currency:'$':2" ng-class="trade.class"></td>
+                                <td>
+                                    <span ng-bind="trade.balance | currency:'$':2"></span>
+                                    <i class="glyphicon" ng-class="trade.classChange" ng-hide="trade.balanceIsHidden"></i>
+                                </td> 
+                                <td ng-bind="trade.spread | currency:'$':2"></td> 
+                            </tr> 
+                        </tbody>
+                    </table>    
+                
+                    <ul uib-pagination 
+                        class="pull-right" 
+                        ng-model="currentPage"
+                        total-items="rsCtrl.data.trades.length"
+                        max-size="rsCtrl.ui.maxSize"  
+                        boundary-links="true">
+                    </ul>
+
+                </div>
+            </div>
+ 
+        </div>                            
+    </div>
+    <!-- END CONTENT FRAME BODY --> 
+</div>
+<!-- END CONTENT FRAME -->  

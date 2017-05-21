@@ -1,0 +1,105 @@
+
+<form class="form-horizontal">
+    <div class="panel panel-default" ng-class="collapseClassPanel()">
+        <div class="panel-heading">
+            <div class="row">
+
+                <div class="col-md-6">
+                    <h3 class="panel-title">
+                        <strong>Filter by</strong>
+                    </h3> 
+                </div>
+
+                <div class="col-md-6"> 
+                    <ul class="panel-controls">
+                        <li>
+                            <a class="panel-collapse" ng-click="collapseToggle()">
+                                <span class="fa" ng-class="collapseClassIcon()"></span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+
+            </div>
+        </div> 
+        <div class="panel-body">
+  
+            <div class="row"> 
+                <div class="col-md-12">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group"> 
+                                <div class="col-md-12">
+
+                                    <div class="col-md-6">
+                                        <div class="input-group"> 
+     
+                                            <select 
+                                                ng-change="rCtrl.setResetPage('dateManager')"
+                                                class="form-control select" 
+                                                ng-model="rCtrl.filtersPlaceholder.managerObject"
+                                                ng-options="manager as manager.name for manager in rCtrl.getManagers() track by manager.id">
+                                               <option value="">All Managers</option> 
+                                            </select>               
+                                        </div>
+                                        <span class="help-block">
+                                            Manager Name
+                                        </span>
+                                    </div> 
+                                </div>
+                            </div> 
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group"> 
+                                <div class="col-md-12"> 
+                                    <div class="col-md-6">
+                                        <div class="input-group">
+     
+                                            <angucomplete-alt   
+                                                id="angucomplete-customer"
+                                                initial-value="rCtrl.getFitlerUserName()" 
+                                                ng-model="rCtrl.filtersPlaceholder.userObject"
+                                                input-changed="rCtrl.setResetPageAndUserOverride"
+                                                placeholder="First or Last Name"
+                                                pause="300"
+                                                match-class="highlight"
+                                                selected-object="rCtrl.filtersPlaceholder.userObject"
+                                                remote-url="{{rCtrl.autocompleteRoute()}}"
+                                                remote-url-data-field="rows"
+                                                title-field="first,last"  
+                                                class="form-autocomplete"
+                                                input-class="form-control form-control-small"></angucomplete-alt>
+                                 
+                                        </div>
+                                        <span class="help-block">
+                                            Customer Fisrt & Last Name
+                                        </span>
+                                    </div> 
+                                    <div class="col-md-6">
+                                        <div class="input-group"> 
+                                            <input 
+                                                class="form-control form-control-small" 
+                                                ng-value="rCtrl.filtersPlaceholder.userIdOverride" 
+                                                ng-model="rCtrl.filtersPlaceholder.userIdOverride"
+                                                ng-change="rCtrl.setResetPage('idCustomer'); rCtrl.setUserId()">
+                                         
+                                        </div>
+                                        <span class="help-block">
+                                            Customer ID
+                                        </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div> 
+                    </div> 
+                </div>   
+            </div>
+
+        </div>
+        <div class="panel-footer">
+            <button class="btn btn-default" ng-click="rCtrl.filtersReset()">Clear</button>
+            <button class="btn btn-primary pull-right" type="submit" ng-click="rCtrl.filtersApply()">Submit</button>
+        </div>
+    </div>
+</form> 
